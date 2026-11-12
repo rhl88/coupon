@@ -1,0 +1,233 @@
+{
+    "id": "cmspro.coupon",
+    "name": "优惠券",
+    "description": "优惠券营销应用：支持满减券、折扣券、无门槛立减券三种券型；支持用户主动领取、后台定向发放、兑换码兑换三种发放方式；提供领券中心、我的优惠券、券活动管理、兑换码管理、发放批次、核销记录与优惠券设置；并开放核销 Service 与前端 API，供其他应用（如积分商城）在下单时抵扣金额。",
+    "version": "1.0.0",
+    "author": "CmsPro",
+    "author_url": "https://www.cmspro.cn",
+    "icon": "fa fa-ticket",
+    "type": "marketing",
+    "require": {
+        "php": ">=8.3",
+        "cmspro": ">=5.0.0"
+    },
+    "dependencies": {
+        "app_ids": [],
+        "optional_app_ids": [],
+        "versions": []
+    },
+    "providers": [
+        "ServiceProvider"
+    ],
+    "hooks": "Hooks",
+    "install": "Install",
+    "menus": [
+        {
+            "title": "优惠券",
+            "icon": "fa fa-ticket",
+            "code": "admin_cmspro_coupon",
+            "order": 83,
+            "children": [
+                {
+                    "title": "券活动管理",
+                    "icon": "fa fa-bullhorn",
+                    "path": "/admin/cmspro/coupon/activities",
+                    "code": "admin_cmspro_coupon_activities",
+                    "order": 1
+                },
+                {
+                    "title": "兑换码管理",
+                    "icon": "fa fa-key",
+                    "path": "/admin/cmspro/coupon/codes",
+                    "code": "admin_cmspro_coupon_codes",
+                    "order": 2
+                },
+                {
+                    "title": "用户优惠券",
+                    "icon": "fa fa-credit-card",
+                    "path": "/admin/cmspro/coupon/user-coupons",
+                    "code": "admin_cmspro_coupon_user_coupons",
+                    "order": 3
+                },
+                {
+                    "title": "发放批次",
+                    "icon": "fa fa-paper-plane",
+                    "path": "/admin/cmspro/coupon/issue-batches",
+                    "code": "admin_cmspro_coupon_issue_batches",
+                    "order": 4
+                },
+                {
+                    "title": "核销记录",
+                    "icon": "fa fa-check-square-o",
+                    "path": "/admin/cmspro/coupon/verify-logs",
+                    "code": "admin_cmspro_coupon_verify_logs",
+                    "order": 5
+                },
+                {
+                    "title": "优惠券设置",
+                    "icon": "fa fa-cog",
+                    "path": "/admin/cmspro/coupon/settings",
+                    "code": "admin_cmspro_coupon_settings",
+                    "order": 6
+                }
+            ]
+        }
+    ],
+    "user_menus": [
+        {
+            "title": "优惠券",
+            "icon": "fa fa-ticket",
+            "code": "user_cmspro_coupon",
+            "order": 53,
+            "children": [
+                {
+                    "title": "领券中心",
+                    "icon": "fa fa-gift",
+                    "path": "/user/cmspro/coupon/center",
+                    "code": "user_cmspro_coupon_center",
+                    "order": 1
+                },
+                {
+                    "title": "我的优惠券",
+                    "icon": "fa fa-credit-card",
+                    "path": "/user/cmspro/coupon/my-coupons",
+                    "code": "user_cmspro_coupon_my",
+                    "order": 2
+                }
+            ]
+        }
+    ],
+    "home_menus": [
+        {
+            "title": "领券中心",
+            "code": "home_cmspro_coupon_center",
+            "path": "/coupon",
+            "order": 1
+        }
+    ],
+    "home_routes": {
+        "/coupon": "领券中心（前端公开页，领取需登录）"
+    },
+    "config_groups": [
+        {
+            "name": "basic",
+            "title": "优惠券基础设置",
+            "items": [
+                {
+                    "name": "access_mode",
+                    "title": "前端访问模式",
+                    "type": "select",
+                    "value": "path",
+                    "options": [
+                        { "label": "无前端页面", "value": "none" },
+                        { "label": "路径前缀", "value": "path" },
+                        { "label": "子域名绑定", "value": "domain" }
+                    ],
+                    "tips": "无前端：领券仅在用户中心与后台进行；路径前缀：通过 /{路径前缀}/ 访问领券中心；子域名：通过绑定域名访问。切换后需刷新路由缓存"
+                },
+                {
+                    "name": "access_path",
+                    "title": "路径前缀",
+                    "type": "text",
+                    "value": "coupon",
+                    "tips": "路径前缀模式下生效，如设置为 coupon 则通过 /coupon 访问领券中心。仅限字母、数字和短横线"
+                },
+                {
+                    "name": "access_domain",
+                    "title": "绑定域名",
+                    "type": "text",
+                    "value": "",
+                    "tips": "子域名模式下生效，支持多域名绑定，以英文逗号分隔，如 coupon.example.com。需在 DNS 中添加解析并在 Web 服务器绑定该域名"
+                },
+                {
+                    "name": "receive_enabled",
+                    "title": "开启用户领取",
+                    "type": "switch",
+                    "value": "1",
+                    "tips": "关闭后领券中心不再接受用户主动领取请求（后台发放与兑换码兑换不受影响）"
+                },
+                {
+                    "name": "coupon_no_prefix",
+                    "title": "券号前缀",
+                    "type": "text",
+                    "value": "CP",
+                    "tips": "用户优惠券券号前缀，如 CP202611111234567890。仅限 2-8 位大写字母"
+                },
+                {
+                    "name": "code_prefix",
+                    "title": "兑换码前缀",
+                    "type": "text",
+                    "value": "",
+                    "tips": "批量生成兑换码时的统一前缀，可为空。仅限大写字母和数字"
+                },
+                {
+                    "name": "page_size",
+                    "title": "列表每页条数",
+                    "type": "number",
+                    "value": "20",
+                    "tips": "后台列表默认分页大小，建议 10-100"
+                }
+            ]
+        },
+        {
+            "name": "rule",
+            "title": "优惠券规则设置",
+            "items": [
+                {
+                    "name": "multi_use_enabled",
+                    "title": "允许同单多券",
+                    "type": "switch",
+                    "value": "0",
+                    "tips": "关闭后单个订单仅允许核销一张优惠券；开启后允许一次核销多张券（优惠额累加，仍不超过订单金额）"
+                },
+                {
+                    "name": "revoke_enabled",
+                    "title": "允许撤销核销",
+                    "type": "switch",
+                    "value": "1",
+                    "tips": "关闭后核销记录不可撤销（券不可退回未使用状态），用于强对账场景"
+                },
+                {
+                    "name": "expire_scan_enabled",
+                    "title": "开启过期扫描",
+                    "type": "switch",
+                    "value": "1",
+                    "tips": "开启后 coupon:expire 定时命令会把已过期未使用的券批量置为已过期状态；关闭时仅在查询时惰性判定"
+                },
+                {
+                    "name": "expire_notify_days",
+                    "title": "到期提醒天数",
+                    "type": "number",
+                    "value": "3",
+                    "tips": "我的优惠券列表对 N 天内到期的未使用券标记「即将过期」，0 表示不提醒"
+                },
+                {
+                    "name": "discount_round_mode",
+                    "title": "优惠额取整方式",
+                    "type": "select",
+                    "value": "floor",
+                    "options": [
+                        { "label": "向下取整到分（floor）", "value": "floor" },
+                        { "label": "四舍五入到分（round）", "value": "round" }
+                    ],
+                    "tips": "折扣券计算出的优惠金额取整方式。向下取整对用户不利但平台不会超发，四舍五入更直观"
+                }
+            ]
+        }
+    ],
+    "permissions": [
+        { "code": "cmspro.coupon.activity.view", "name": "优惠券-券活动查看" },
+        { "code": "cmspro.coupon.activity.create", "name": "优惠券-券活动新增" },
+        { "code": "cmspro.coupon.activity.update", "name": "优惠券-券活动编辑" },
+        { "code": "cmspro.coupon.activity.delete", "name": "优惠券-券活动删除" },
+        { "code": "cmspro.coupon.code.view", "name": "优惠券-兑换码查看" },
+        { "code": "cmspro.coupon.code.generate", "name": "优惠券-兑换码生成" },
+        { "code": "cmspro.coupon.code.destroy", "name": "优惠券-兑换码作废" },
+        { "code": "cmspro.coupon.usercoupon.view", "name": "优惠券-用户券查看" },
+        { "code": "cmspro.coupon.issue.manage", "name": "优惠券-定向发放" },
+        { "code": "cmspro.coupon.verify.view", "name": "优惠券-核销记录查看" },
+        { "code": "cmspro.coupon.verify.revoke", "name": "优惠券-撤销核销" },
+        { "code": "cmspro.coupon.setting.manage", "name": "优惠券-设置管理" }
+    ],
+    "runtime_files": []
+}

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+    <defs>
+        <!-- 底板：警告橙 → 危险红（CMSPRO 语义色板），三色过渡更顺滑 -->
+        <linearGradient id="cpBg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffc21a"/>
+            <stop offset="48%" stop-color="#ff8320"/>
+            <stop offset="100%" stop-color="#ff5722"/>
+        </linearGradient>
+        <!-- 顶部柔光高光，增加质感 -->
+        <linearGradient id="cpGloss" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.26"/>
+            <stop offset="52%" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+        <!-- 票券暖色投影 -->
+        <filter id="cpShadow" x="-30%" y="-30%" width="160%" height="170%">
+            <feDropShadow dx="0" dy="2.5" stdDeviation="2.4" flood-color="#a83312" flood-opacity="0.40"/>
+        </filter>
+        <!-- 缺口遮罩：整体保留（含投影），仅在撕裂线两端挖出半圆撕口 -->
+        <mask id="cpNotch">
+            <rect x="0" y="0" width="120" height="120" fill="#ffffff"/>
+            <circle cx="72" cy="34" r="5" fill="#000000"/>
+            <circle cx="72" cy="86" r="5" fill="#000000"/>
+        </mask>
+    </defs>
+
+    <!-- 圆角底板 + 高光 -->
+    <rect width="120" height="120" rx="24" fill="url(#cpBg)"/>
+    <rect width="120" height="120" rx="24" fill="url(#cpGloss)"/>
+
+    <!-- 装饰星光与光点（位于票券下层） -->
+    <path d="M101 17 L103.1 24.4 L110.5 26.5 L103.1 28.6 L101 36 L98.9 28.6 L91.5 26.5 L98.9 24.4 Z" fill="#ffffff" opacity="0.55"/>
+    <circle cx="21" cy="97" r="2.7" fill="#ffffff" opacity="0.42"/>
+    <circle cx="30.5" cy="104" r="1.5" fill="#ffffff" opacity="0.30"/>
+    <circle cx="104" cy="90" r="1.9" fill="#ffffff" opacity="0.30"/>
+
+    <!-- 票券主体（白色，含撕口与投影） -->
+    <g mask="url(#cpNotch)">
+        <rect x="20" y="34" width="80" height="52" rx="9" fill="#ffffff" filter="url(#cpShadow)"/>
+    </g>
+
+    <!-- 撕裂虚线 -->
+    <line x1="72" y1="42" x2="72" y2="78" stroke="#f3ab8b" stroke-width="2" stroke-linecap="round" stroke-dasharray="3.4 4.2"/>
+
+    <!-- 左主券区：折扣 % 符号 -->
+    <g fill="#ff5722" stroke="#ff5722">
+        <line x1="37" y1="69" x2="55" y2="51" stroke-width="3.4" stroke-linecap="round"/>
+        <circle cx="40" cy="53" r="4.2" stroke="none"/>
+        <circle cx="52" cy="67" r="4.2" stroke="none"/>
+    </g>
+
+    <!-- 右副券区：文本占位条 -->
+    <g fill="#ff8a5c">
+        <rect x="78" y="51" width="17" height="4" rx="2" opacity="0.62"/>
+        <rect x="78" y="59" width="13" height="4" rx="2" opacity="0.45"/>
+        <rect x="78" y="67" width="9" height="4" rx="2" opacity="0.30"/>
+    </g>
+</svg>

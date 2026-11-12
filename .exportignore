@@ -1,0 +1,13 @@
+# CmsproCoupon 应用导出排除规则
+# 参考：docs/规则技能包/rules/CmsPro-v5-应用开发文档.md § 十六、应用打包
+
+# 版本控制
+.git/
+.gitignore
+
+# 测试（开发期产物，打包分发时排除）
+Tests/
+
+# 图标设计预览产物（开发期验证用，不随应用包分发）
+icon-preview.html
+icon-preview.png
