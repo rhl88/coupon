@@ -15,7 +15,7 @@
         .layui-form { height: 100%; }
         .layui-form > .layui-row { height: calc(100vh - 52px); overflow-y: auto; padding: 15px; margin: 0; }
         .bottom { height: 52px; background: #fff; border-top: 1px solid #e6e6e6; text-align: right; }
-        .bottom .button-container { display: inline-block; padding: 10px 15px; }
+        .bottom .button-container { display: inline-block; line-height: 52px; padding-right: 15px; }
         .bottom .button-container button { margin-left: 10px; }
         .form-tips { color: #999; font-size: 12px; padding-left: 10px; }
     </style>
